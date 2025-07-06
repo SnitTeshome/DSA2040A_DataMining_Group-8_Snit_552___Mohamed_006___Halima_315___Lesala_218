@@ -47,6 +47,10 @@
 ```bash
 git clone https://github.com/your-username/DSA2040A_DataMining_Group8.git
 ```
+## *Data Source*
+
+*Dataset used:* [**Superstore Sales Dataset**](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)  
+*Description:* This dataset contains nearly 10,000 records of retail orders, including order dates, product details, customer information, sales, profit, discount, and region. It’s widely used for teaching data analysis and visualization.
 
 ## *Project Folder Structure*
 
