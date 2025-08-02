@@ -1,5 +1,6 @@
 # *DSA2040A_DataMining_Group8*
-*Group 8 project for DSA2040A: End-to-End Data Mining using Superstore Sales Dataset*
+*Group 8 project for DSA2040A: End-to-End Data Mining using Olist E-commerce Dataset*
+
 
 ## *Team Members & Contributions*
 
@@ -15,7 +16,9 @@
 
 ## *Project Summary*
 
-*This project uses the Superstore Sales Dataset to analyze purchasing trends, product performance, customer behavior, and delivery performance. The goal is to uncover patterns that support better retail decision-making using the full pipeline from ETL to Data Mining to Dashboard storytelling.*
+*This project leverages the Olist E-commerce dataset, which represents a Brazilian marketplace that connects small and medium-sized retailers to customers across Brazil.*
+
+The goal is to understand order behavior, delivery performance, product segmentation, and customer satisfaction by analyzing the complete pipeline: from ETL, EDA, Data Mining, to Dashboard development.*
 
 *Key questions addressed include:*
 - *What product categories are most profitable?*
@@ -26,6 +29,7 @@
 ---
 
 ## *ETL Summary*
+
 
 *The raw dataset is loaded and examined for structure and quality. Data types are corrected (e.g., date fields), missing values are handled, and new calculated columns are created (such as profit margin). Cleaned and structured data is then saved for further analysis.*
 
@@ -45,11 +49,13 @@
 *1. Clone the repository:*
 
 ```bash
+
 git clone https://github.com/your-username/DSA2040A_DataMining_Group8.git
+cd DSA2040A_DataMining_Group8
 ```
 ## *Data Source*
 
-*Dataset used:* [**Superstore Sales Dataset**](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)  
+*Dataset used:* [**Olist E-commerce Dataset**](https://www.kaggle.com/code/rasikagurav/brazilian-e-commerce-eda-nlp)  
 *Description:* This dataset contains nearly 10,000 records of retail orders, including order dates, product details, customer information, sales, profit, discount, and region. It’s widely used for teaching data analysis and visualization.
 
 ## *Project Folder Structure*
