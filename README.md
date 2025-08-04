@@ -1,9 +1,29 @@
 # *DSA2040A:Group 8 project End-to-End Data Mining using Olist E-commerce Dataset*
 
 
-![alt text](image-1.png)
+![alt text](output_screenshots/image-1.png)
+
 
 ---
+
+## *Table of Contents*
+
+* [*Project Overview*](#dsa2040agroup-8-project-end-to-end-data-mining-using-olist-e-commerce-dataset)
+* [*Team Members & Contributions*](#team-members--contributions)
+* [*Project Summary*](#project-summary)
+* [*Project Folder Structure*](#project-folder-structure)
+* [*Week-by-Week Progress*](#week-by-week-progress)
+
+  * [*Week 1 & 2 – ETL Process*](#week-1--2--kickoff--dataset-selection-mohamed-mohamed1_extract_transformipynb)
+  * [*Week 3 – Exploratory Analysis*](#week-3--exploratory--statistical-analysishalima-mohammed2_exploratory_analysisipynb)
+  * [*Week 4 – Data Mining & NLP*](#week-4--data-minning-snit_teshome-3_data_miningipynb)
+* [*Tools and Technologies*](#tools--technologies)
+* [*How to Run*](#how-to-run)
+* [*Data Source*](#data-source)
+* [*License*](#license)
+
+---
+
 
 *This dataset, generously provided by Olist—the largest department store on Brazilian marketplaces—offers a comprehensive view of over 100,000 orders placed between 2016 and 2018. It captures multiple dimensions of the e-commerce experience, including order status, pricing, payment behavior, freight logistics, customer reviews, product categories, and geolocation.*
 
@@ -31,7 +51,9 @@
 
 *This project leverages the Olist E-commerce dataset, which represents a Brazilian marketplace that connects small and medium-sized retailers to customers across Brazil.*
 
-![alt text](image-2.png)
+
+![Output screenshot](output_screenshots/image-2.png)
+
 
 
 
@@ -60,10 +82,7 @@ DataMining_GroupProject_Group8/
 
 
 # *`Week-by-Week Progress`*
-## *Week 1 – Kickoff & Dataset Selection*
-
-
-
+# *Week 1 & 2 – Kickoff & Dataset Selection :Mohamed Mohamed:1_extract_transform.ipynb*
 ### *I. Import Required Libraries*
 
 *Essential Python libraries such as `pandas`, `numpy`, and `scikit-learn` are imported for data manipulation, cleaning, and feature engineering.*
@@ -109,7 +128,7 @@ for name, df in datasets.items():
     print("\n" + "-" * 80)
 ```
 
-![alt text](image-3.png)
+![alt text](output_screenshots/image-3.png)
 
 # *II.Transformation*
 ### *Data Cleaning & Transformation (Wrangling)*
@@ -173,13 +192,7 @@ def wrangle(df):
 
 *The `wrangle()` function is applied to each DataFrame in the dataset collection to create a uniformly cleaned dataset collection.*
 
-```python
-cleaned_datasets = {}
-for name, df in datasets.items():
-    print(f"{name}  has been cleaned successfully.")
-    cleaned_datasets[name] = wrangle(df)
-```
-![alt text](image-4.png)
+![alt text](output_screenshots/image-4.png)
 ---
 
 ### *Merge Cleaned Datasets*
@@ -205,17 +218,13 @@ olist_full_data = olist_full_data.merge(
     right_on="geolocation_zip_code_prefix",
     how="left"
 )
-
-
 ```
-![alt text](image-5.png)
+![alt text](output_screenshots/image-5.png)
 ---
 
 ### *Final Data Cleaning*
 
 *Post-merge cleanup includes logical imputation for key date fields, conversion of ZIP codes and order item IDs to string, and removal of rows with critical missing values.*
-
-
 
 ---
 
@@ -237,7 +246,7 @@ olist_full_data = olist_full_data.merge(
 
 
 ---
-![alt text](image-6.png)
+![alt text](output_screenshots/image-6.png)
 
 # *III.Loading*
 
@@ -246,55 +255,194 @@ olist_full_data = olist_full_data.merge(
 
  *Step 2: Load transformed_dataset  as Parquet*
 
- ![alt text](image-7.png)
+ ![alt text](output_screenshots/image-7.png)
 
 ---
 *step-3 Preview the full_data results*
 
-## *ETL Summary*
+#### *ETL Summary*
 *The raw dataset is loaded and examined for structure and quality. Data types are corrected (e.g., date fields), missing values are handled, and new calculated columns are created (such as profit margin). Cleaned and structured data is then saved for further analysis.*
+
+# *Week 3 – Exploratory & Statistical Analysis:Halima Mohammed:2_exploratory_analysis.ipynb*
+
+---
+
+### *Data Loading & Overview:*
+
+*Basic methods for loading and previewing data:*
+
+```python
+df = pd.read_csv('your_data.csv')
+df.info()
+```
+---
+
+###  *Summary Statistics:*
+
+*Generates descriptive statistics for numerical features:*
+
+```python
+
+numerical_df = df.select_dtypes(include=[np.number])
+print(numerical_df.describe().round(2))
+```
+![alt text](output_screenshots/image-8.png)
+---
+
+### *Univariate Analysis:*
+
+*Visualizes distributions using `histplot`, `boxplot`, `countplot` from Seaborn.*
+
+*Highlights skewed distributions and common value ranges.*
+
+```python
+sns.histplot(data=df, x='price', bins=50, kde=True)
+```
+![alt text](output_screenshots/image-9.png)
+---
+
+### *Bivariate Analysis:*
+
+*Correlation analysis & visualizations:*
+
+```python
+corr_matrix = df.corr()
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+```
+![alt text](output_screenshots/image-10.png)
+*Focuses on:*
+
+* *Relationships between `payment_value`, `price`, `profitability`*
+* *Group differences across product categories and regions*
+
+---
+
+### *Customer Behavior: RFM Segmentation*
+
+*Analyzes Recency, Frequency, Monetary value:*
+
+```python
+sns.scatterplot(data=df, x='recency_days', y='monetary_value', size='purchase_frequency')
+```
+
+*Identifies loyal vs one-time customers and high-value segments.*
+
+---
+
+# *Week 4 – Data Minning: Snit_Teshome 3_data_mining.ipynb*
+###  *Machine Learning & NLP: Clustering, Sentiment & Text Classification*
+---
+
+#### *Data Loading & Preparation*
+
+*Loaded e-commerce review, order, and product data.*
+*Merged datasets to create a unified DataFrame for analysis.*
+
+```python
+df_reviews = pd.read_csv('.../olist_order_reviews_dataset.csv')
+df_items = pd.read_csv('.../olist_order_items_dataset.csv')
+df_products = pd.read_csv('.../olist_products_dataset.csv')
+```
+
+---
+
+### *Clustering (Unsupervised Learning)*
+
+*Selected relevant numerical features (e.g., monetary value, purchase frequency, review score).*
+*Scaled features and applied K-Means clustering.*
+*Used the Elbow Method to determine optimal clusters (k=6).*
+*Profiled clusters to understand customer segments.*
+
+```python
+features_to_cluster = ['monetary_value', 'purchase_frequency', 'recency_days', 'review_score', 'profit_margin']
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(df[features_to_cluster])
+kmeans = KMeans(n_clusters=6, random_state=42)
+df['cluster'] = kmeans.fit_predict(scaled_data)
+```
+
+---
+### *Natural Language Processing (NLP) & Sentiment Analysis*
+
+*Cleaned and preprocessed review text (removed duplicates, stopwords, punctuation).*
+*Generated word clouds to visualize frequent terms in reviews.*
+*Used VADER sentiment analysis to classify reviews as Positive, Neutral, or Negative.*
+*Visualized sentiment distribution.*
+
+```python
+def clean_and_tokenize(text): ...
+wordcloud = WordCloud(...).generate(' '.join(df['review_comment_message_clean'].dropna()))
+analyzer = SentimentIntensityAnalyzer()
+def classify_sentiment(text): ...
+df['sentiment'] = df['review_comment_message_clean'].map(classify_sentiment)
+```
+
+---
+![alt text](output_screenshots/image-12.png)
+### *Text Classification (Supervised Learning)*
+
+*Defined features (review text) and target (sentiment label).*
+*Split data into training and test sets.*
+*Encoded sentiment labels and vectorized text using TF-IDF.*
+*Trained a Logistic Regression model to predict sentiment.*
+*Evaluated model with accuracy, confusion matrix, and classification report.*
+![alt text](output_screenshots/image-13.png)
+
+```python
+X = df['review_comment_message']
+y = df['sentiment']
+X_train, X_test, y_train, y_test = train_test_split(X, y, ...)
+vectorizer = TfidfVectorizer(max_features=5000)
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+model = LogisticRegression(...)
+model.fit(X_train_tfidf, y_train)
+y_pred = model.predict(X_test_tfidf)
+print(classification_report(y_test, y_pred))
+```
+## *Classification Report*
+![alt text](output_screenshots/image-14.png)
+---
+
+
 ## *Tools & Technologies*
 
-- *Python (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn)*
+- *Python* (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, NLTK, spaCy, Transformers)
 - *Jupyter Notebook*
-- *GitHub for collaboration*
-- *Plotly/Seaborn/Power BI for visualization*
+- *Git & GitHub* for version control and collaboration
+- *Plotly*, *Seaborn*, and *Power BI* for data visualization
+
 
 ---
 
 ## *How to Run*
 
-*1. Clone the repository:*
+*Clone the repository Full Workflow (Cloning → Making Changes → Committing → Pushing)*
 
 ```bash
-
-git clone https://github.com/your-username/DSA2040A_DataMining_Group8.git
-cd DSA2040A_DataMining_Group8
+git clone https://github.com/SnitTeshome/DSA2040A_DataMining_Group-8_Snit_552___Mohamed_006___Halima_315___Lesala_218.git
+cd DSA2040A_DataMining_Group-8_Snit_552___Mohamed_006___Halima_315___Lesala_218
 ```
+``` bash
+git status
+git add .
+git commit -m "Your commit message"
+git push origin main
+```
+
 ## *Data Source*
 
 *Dataset used:* [**Olist E-commerce Dataset**](https://www.kaggle.com/code/rasikagurav/brazilian-e-commerce-eda-nlp)  
-*Description:* This dataset contains nearly 10,000 records of retail orders, including order dates, product details, customer information, sales, profit, discount, and region. It’s widely used for teaching data analysis and visualization.
 
-## *Project Folder Structure*
 
-```
-DataMining_GroupProject_Group8/
-├── data/
-│   ├── raw/                ← Place your original CSV file here
-│   ├── transformed/        ← Cleaned dataset goes here
-│   └── final/              ← Dataset used for mining/dashboards
-├── notebooks/
-│   ├── 1_extract_transform.ipynb
-│   ├── 2_exploratory_analysis.ipynb
-│   ├── 3_data_mining.ipynb
-│   └── 4_insights_dashboard.ipynb
-├── report/
-│   ├── executive_summary.pdf
-│   └── presentation.pptx
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
+
+---
+
+### *License*
+
+*This project is licensed under the* [MIT License](https://github.com/SnitTeshome/DSA2040A_DataMining_Group-8_Snit_552___Mohamed_006___Halima_315___Lesala_218/blob/main/LICENSE).
+*You are free to use, copy, modify, and distribute this software, provided the original license is included.*
+
+---
 
 
