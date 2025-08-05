@@ -59,6 +59,10 @@
 
 
 ---
+### *Questions addressed include:*
+*1.Can we build predictive models to classify review sentiment and identify high-value customer segments?*
+
+*2.What actionable business insights can be visualized through dashboards for stakeholders?*
 ## *Project Folder Structure*
 
 ```
@@ -412,10 +416,18 @@ print(classification_report(y_test, y_pred))
 - *Git & GitHub* for version control and collaboration
 - *Plotly*, *Seaborn*, and *Power BI* for data visualization
 
+# *Week 5: – Lesala Phillip Monaheng:4_insights_dashboard.ipynb*
+
+*Created an interactive dashboard to visualize key insights from the analysis.*
+
+![alt text](report/image-1.png)
 
 ---
 
-## *How to Run*
+![alt text](report/image-2.png)
+
+
+## *How to Run*04_insights_dashboard
 
 *Clone the repository Full Workflow (Cloning → Making Changes → Committing → Pushing)*
 
