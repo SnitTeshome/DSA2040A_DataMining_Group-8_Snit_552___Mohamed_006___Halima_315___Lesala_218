@@ -269,7 +269,7 @@ olist_full_data = olist_full_data.merge(
 
 # *Week 3 – Exploratory & Statistical Analysis:Halima Mohammed:2_exploratory_analysis.ipynb*
 
----
+
 
 ### *Data Loading & Overview:*
 
@@ -290,10 +290,61 @@ df.info()
 numerical_df = df.select_dtypes(include=[np.number])
 print(numerical_df.describe().round(2))
 ```
+
+## *Summary Statistics Overview*
+
+### *1. Price & Freight*
+
+*Price and freight_value show extreme outliers. The maximum price is 6735, while the mean is 120. Freight value has a max of 409.68 with a mean of 20. This suggests a heavy-tailed distribution. Consider log transformation or outlier capping before modeling.*
+
+---
+
+### *2. Payment Installments & Payment Value*
+
+*Customers pay in up to 24 installments, suggesting possible credit behavior. Payment value has a large maximum (13,664.08) and a mean of 172.43, indicating a right-skewed distribution. Scaling or transformation is advisable.*
+
+---
+
+### *3. Product Dimensions & Weight*
+
+*Product weight, length, width, and height show high variability. The max volume reaches nearly 300,000 cm³, pointing to potential errors or very large items. Outlier handling is necessary here too.*
+
+---
+
+### *4. Profitability Metrics*
+
+*Profit margin is extremely skewed, with a max of over 13,000 and a mean of 152. Freight ratio could be informative when comparing cost vs price. These variables may benefit from normalization or log scaling.*
+
+---
+
+### *5. Time-related Metrics*
+
+*On average, deliveries are early by 11.91 days, though some are late by up to 188 days. Most orders are processed on the same day. Recency spans widely, with a mean of 242 days, indicating varying customer activity.*
+
+---
+
+### *6. Customer Behavior*
+
+*Most customers are one-time buyers (purchase frequency median is 1), though some have bought up to 16 times. Monetary value is highly skewed (max over 100K). Average review scores per category are high (around 4).*
+
+---
+
+### *7. Flags*
+
+*Only 6% of orders are marked as late. About 25% of transactions had high freight cost. These binary flags can be useful targets for classification models.*
+
+---
+
+### *Action Points*
+
+- *Handle outliers in price, weight, freight, and profit-related features.*
+- *Apply feature scaling or transformations on skewed variables.*
+- *Consider customer segmentation using frequency, monetary value, and recency.*
+- *Target prediction for flags like is_late or high_freight_flag is feasible.*
 ![alt text](output_screenshots/image-8.png)
 ---
 
-### *Univariate Analysis:*
+## *Univariate Analysis:*
 
 *Visualizes distributions using `histplot`, `boxplot`, `countplot` from Seaborn.*
 
@@ -304,40 +355,82 @@ sns.histplot(data=df, x='price', bins=50, kde=True)
 ```
 ![alt text](output_screenshots/image-9.png)
 ---
-
-### *Bivariate Analysis:*
+![alt text](output_screenshots/image-10.png)
+## *Bivariate Analysis:*
 
 *Correlation analysis & visualizations:*
 
 ```python
 corr_matrix = df.corr()
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+
 ```
-![alt text](output_screenshots/image-10.png)
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image.png)
+---
+
 *Focuses on:*
 
 * *Relationships between `payment_value`, `price`, `profitability`*
 * *Group differences across product categories and regions*
 
 ---
+## *Boxplot of Price by Product Category*
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-1.png)
 
-### *Customer Behavior: RFM Segmentation*
+
+
+## *1. Payment Value by Payment Type*
+
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-2.png)
+
+
+## *2. Estimated Delay by Seller State*
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-3.png)
+
+
+## *3. Monetary Value by Customer State*
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-4.png)
+
+## *Customer Behavior: RFM Segmentation*
 
 *Analyzes Recency, Frequency, Monetary value:*
 
 ```python
 sns.scatterplot(data=df, x='recency_days', y='monetary_value', size='purchase_frequency')
+
 ```
 
-*Identifies loyal vs one-time customers and high-value segments.*
+### *Time-Based Analysis*
+### *Number of Purchases per Month*
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-16.png)
+
 
 ---
+*Detailed Breakdown of Trends*  
+
+- *Initial Stage (September 2016 - January 2017)*:  
+  The business begins with a *very low order volume*, starting near zero and growing slowly over the first few months. This is *typical for a new venture* finding its footing.
+
+- *Rapid Growth Phase (February 2017 - November 2017)*:  
+  Starting in early 2017, the business enters a period of *aggressive and consistent growth*. The number of orders climbs *steeply month-over-month*.  
+  This rapid ascent culminates in a *sharp peak in November 2017*, with the number of orders *exceeding 6,000*. This peak is likely driven by *seasonal shopping events* like `*Black Friday* and *pre-holiday sales*.`
+
+- *Maturity and High-Volume Plateau (December 2017 - August 2018)*:  
+  Following the November peak, there is a *significant drop* in December 2017, though the volume remains *substantially higher* than the previous year.  
+  For the remainder of the period shown, the business establishes a *new, higher baseline* for orders. The volume *consistently fluctuates* in a *high range*, mostly between *5,000 and 6,000 orders per month*.  
+  This indicates that the growth achieved in 2017 was *not temporary*; the business has *successfully scaled* and is now operating at a *much higher level of activity*.
+
+
+*Conclusion & Business Implication*  
+The data clearly shows a business that has *successfully transitioned from a startup phase to a mature, high-volume operation*. The key challenge illustrated by the chart is *managing the seasonality and fluctuations* that come with a larger scale.  
+The primary business implication is that *strategies should now focus on sustaining this high volume*, *optimizing operations for peak demand* (like the one seen in November), and *identifying new avenues for the next phase of growth*.
+
 
 # *Week 4 – Data Minning: Snit_Teshome 3_data_mining.ipynb*
-###  *Machine Learning & NLP: Clustering, Sentiment & Text Classification*
+##  *Machine Learning & NLP: Clustering, Sentiment & Text Classification*
 ---
 
-#### *Data Loading & Preparation*
+### *Data Loading & Preparation*
 
 *Loaded e-commerce review, order, and product data.*
 *Merged datasets to create a unified DataFrame for analysis.*
@@ -350,13 +443,13 @@ df_products = pd.read_csv('.../olist_products_dataset.csv')
 
 ---
 
-### *Clustering (Unsupervised Learning)*
-
+## *1.Clustering (Unsupervised Learning)*
+### *I .Data Preprocessing for K-Means*
 *Selected relevant numerical features (e.g., monetary value, purchase frequency, review score).*
 *Scaled features and applied K-Means clustering.*
 *Used the Elbow Method to determine optimal clusters (k=6).*
 *Profiled clusters to understand customer segments.*
-
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-5.png)
 ```python
 features_to_cluster = ['monetary_value', 'purchase_frequency', 'recency_days', 'review_score', 'profit_margin']
 scaler = StandardScaler()
@@ -364,8 +457,37 @@ scaled_data = scaler.fit_transform(df[features_to_cluster])
 kmeans = KMeans(n_clusters=6, random_state=42)
 df['cluster'] = kmeans.fit_predict(scaled_data)
 ```
+### *Elbow Method Insights*
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-6.png)
 
 ---
+
+### *Key Observations:*
+
+---
+
+*🔵Cluster 0: Moderate overall metrics, with a strong review score (4.66), suggesting customers are fairly satisfied.*
+*May be retained with regular engagement.*
+
+*🔴Cluster 1: Low review score (1.59) despite fair monetary value and profit margin.*
+*Could signal service/product issues that require quality improvement.*
+
+*🟠Cluster 2: Extremely high monetary value (109,312.64) and profit margin (13,636.07) — but alarmingly low review score (1.00). Represents dissatisfied but valuable clients, possibly bulk buyers or B2B clients needing better service follow-up.*
+
+*🟡Cluster 3: Similar in profile to Cluster 0, but extremely high recency (397.64) indicates inactivity.*
+*Should be re-engaged through reactivation campaigns.*
+
+*🟢Cluster 4: High monetary value (7,544.95) and strong profit margin (1,486.24) — possibly premium customers.*
+*Slightly lower satisfaction (3.51), which may be improved to strengthen loyalty.*
+
+*💙Cluster 5: High purchase frequency (7.11) with a solid review score (4.41) and decent monetary value.*
+*Highly loyal and satisfied customers — best candidates for loyalty programs or special offers.*
+
+---
+#### *Overall Trend*
+
+*Customer behavior is diverse and segmented—some are highly profitable but dissatisfied, others are loyal and engaged, while some are drifting away or minimally involved. Understanding these patterns supports more effective decision-making around retention, engagement, and resource allocation.*
+
 ### *Natural Language Processing (NLP) & Sentiment Analysis*
 
 *Cleaned and preprocessed review text (removed duplicates, stopwords, punctuation).*
@@ -383,6 +505,15 @@ df['sentiment'] = df['review_comment_message_clean'].map(classify_sentiment)
 
 ---
 ![alt text](output_screenshots/image-12.png)
+![alt text](output_screenshots/image-13.png)
+
+
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-7.png)
+
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-8.png)
+
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-9.png)
+
 ### *Text Classification (Supervised Learning)*
 
 *Defined features (review text) and target (sentiment label).*
@@ -390,8 +521,26 @@ df['sentiment'] = df['review_comment_message_clean'].map(classify_sentiment)
 *Encoded sentiment labels and vectorized text using TF-IDF.*
 *Trained a Logistic Regression model to predict sentiment.*
 *Evaluated model with accuracy, confusion matrix, and classification report.*
-![alt text](output_screenshots/image-13.png)
 
+### *Vectorization with Tfidf means*:
+*Vectorization with Tfidf (Term Frequency-Inverse Document Frequency) is a technique used to convert text data into numerical vectors that can be used in machine learning model.* 
+ 
+*🔹 TF-IDF (Term Frequency–Inverse Document Frequency):  
+Balances how frequent a word is and how unique it is across the dataset.*
+
+*Importance = Appears often in a given review but rarely in other reviews.*
+
+*Helps filter out generic words and highlight more meaningful, context-specific ones.*
+
+*TF-IDF Score = TF × IDF*
+*Combining both:*
+
+*Words with high TF but low IDF (like “the”, “good”) get low TF-IDF → filtered out as uninformative.*
+
+*Words with high TF and high IDF (like “refund”, “delay”) get high TF-IDF → highlighted as important.*
+
+
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-10.png)
 ```python
 X = df['review_comment_message']
 y = df['sentiment']
@@ -404,10 +553,58 @@ model.fit(X_train_tfidf, y_train)
 y_pred = model.predict(X_test_tfidf)
 print(classification_report(y_test, y_pred))
 ```
+## *Confusion Matrix*
+
+![alt text](output_screenshots/Out_put%20screet_EDA%20_Dataminning/image-11.png)
+
+
+### *Confusion Matrix Interpretation (3-Class Sentiment)*
+
+- *Neutral (majority class)*: Excellent performance — **99.4% recall**, minimal confusion.
+- *Positive*: Substantial improvement — **90% recall**, misclassifications reduced (esp. Neutral↔Positive).
+- *Negative*: Major gains — **82% recall** (from ~23%), fewer errors.
+
 ## *Classification Report*
 ![alt text](output_screenshots/image-14.png)
 ---
+*Given that  the daset is from e-commerce reviews, which metric (precision, recall, F1-score) matters more, especially when considering classes like Negative, Neutral, and Positive?*
 
+*It Depends on Your Goal:*
+
+*1. `Precision:`  
+How many of the predicted labels are actually correct?*
+
+*When it's important:*  
+*If you're using predicted sentiment to trigger actions, e.g.:*  
+*- Auto-responding to Negative reviews.*  
+*- Giving discounts to Positive reviewers.*  
+*- Flagging Negative reviews for manual moderation.*  
+
+*You don’t want false positives — i.e., misclassifying Neutral/Positive reviews as Negative and wasting resources.*
+
+*📌 In e-commerce, precision is very important for Negative sentiment.  
+You don’t want to wrongly treat Neutral/Positive feedback as a crisis.*
+
+*2.` Recall:`  
+Out of all actual reviews of a type, how many did we catch?*
+
+*When it's important:*  
+*If your goal is not to miss any Negative reviews.*  
+*For example, you're doing brand monitoring, and you want to capture every Negative sentiment — even at the risk of over-alerting.*
+
+*📌 In e-commerce, recall is important when customer satisfaction monitoring or crisis management is the goal.*
+
+*3. `F1-score:` 
+Harmonic mean of Precision and Recall.  
+Balances both.*
+
+*When it's important:*  
+*When both precision and recall matter, like in general sentiment analysis dashboards.*  
+*If the dataset is imbalanced (like yours — mostly Neutral), F1-score helps you measure how well the model is doing beyond just accuracy.*
+
+*📌 For overall model comparison, F1-score is a safe and fair metric.*
+
+**Overall Accuracy**: *98.5%
 
 ## *Tools & Technologies*
 
@@ -425,6 +622,9 @@ print(classification_report(y_test, y_pred))
 ---
 
 ![alt text](report/image-2.png)
+
+
+
 
 
 ## *How to Run*04_insights_dashboard
